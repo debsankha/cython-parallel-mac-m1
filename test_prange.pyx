@@ -1,11 +1,10 @@
-from cython.parallel import prange, threadid
-from libc.stdio cimport printf
+from cython.parallel import prange
 
-cdef bint isprime(unsigned long x):
+def isprime_parallel(unsigned long x):
     cdef bint res
     cdef unsigned long y
     cdef int tid
-    for y in prange(2, x, num_threads=8, nogil=True):
+    for y in prange(2, x, nogil=True):
         if x % y == 0:
             res = False
             break
@@ -14,8 +13,18 @@ cdef bint isprime(unsigned long x):
     return res
 
 
-def py_isprime(unsigned long x):
-    return isprime(x)
+def isprime_serial(unsigned long x):
+    cdef bint res
+    cdef unsigned long y
+    cdef int tid
+    for y in range(2, x):
+        if x % y == 0:
+            res = False
+            break
+    else:
+        res = True
+    return res
+
 
 
 def func(double[:] x, double alpha):
