@@ -11,7 +11,6 @@ for pyxfile in glob.glob("./*.pyx"):
         Extension(
             pyxfile_basename,
             [pyxfile],
-#            extra_compile_args=['-v', '-lmpi'],
             extra_compile_args=['-fopenmp'],
             extra_link_args=['-lmpi', '-lomp'],
         )
@@ -19,6 +18,5 @@ for pyxfile in glob.glob("./*.pyx"):
 
 
 setup(
-    #ext_modules = [cythonize(f) for f in glob.glob("./*.pyx")]
     ext_modules = cythonize(ext_modules),
 )
